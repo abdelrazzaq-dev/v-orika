@@ -1,12 +1,13 @@
 <template lang="pug">
-  .input-datetime
-    label.input-datetime__label(
+  .c-date-picker
+    label.c-date-picker__label(
       v-if="label"
       :for="name"
       :class="labelCssClass"
-    ) {{label}}
-    .input-datetime__container
-      input.input-datetime__field(
+      v-t="label"
+    )
+    div
+      input.c-date-picker__field(
         v-bind='$attrs'
         type="text"
         :name="name"
@@ -16,18 +17,18 @@
           fieldCssClass
         ]`
       )
-      .calender
-        .calender-header
-          button.calender-header__move.icon-chevron-right
-          .calender-header__date
-            button.calender-date.date__day 13
-            button.calender-date.date__month يناير
-            button.calender-date.date__year 2019
-          button.calender-header__move.icon-chevron-left
-          .calender-header__days
-            .calender__day(v-for="item in localeWeekday") {{ item }}
-        .calender__body(ref="datesContainers")
-          button.calender__button(v-for="item in gridItems" type="button")
+      .c-date-picker__picker
+        .c-date-picker__header
+          button.c-date-picker__switch
+          div
+            button.c-date-picker__date {{ day }}
+            button.c-date-picker__date {{ month }}
+            button.c-date-picker__date {{ year }}
+          button.c-date-picker__switch
+          .c-date-picker__weekdays
+            .c-date-picker__weekday(v-for="item in localeWeekday") {{ item }}
+        .c-date-picker__dates(ref="datesContainers")
+          button.c-date-picker__day(v-for="item in gridItems" type="button")
 
 </template>
 
@@ -84,6 +85,26 @@ export default class AppDatepicker extends Vue {
     return generateWeekdayNameInLocal(this.locale, { format: "short" });
   }
 
+  get day() {
+    if (this.currentLocale)
+      return this.dateValue.toLocaleDateString(this.locale, { day: "numeric" });
+    return this.dateValue.toLocaleDateString(undefined, { day: "numeric" });
+  }
+
+  get month() {
+    if (this.currentLocale)
+      return this.dateValue.toLocaleDateString(this.locale, { month: "long" });
+    return this.dateValue.toLocaleDateString(undefined, { month: "long" });
+  }
+
+  get year() {
+    if (this.currentLocale)
+      return this.dateValue.toLocaleDateString(this.locale, {
+        year: "numeric"
+      });
+    return this.dateValue.toLocaleDateString(undefined, { year: "numeric" });
+  }
+
   fillCalender() {
     const today = new Date();
     const tmpDate = this.dateValue;
@@ -103,21 +124,21 @@ export default class AppDatepicker extends Vue {
         element.textContent = workingDate.getDate().toString();
         element.setAttribute("data-date", workingDate.toISOString());
         if (workingDate.getMonth() !== this.dateValue.getMonth()) {
-          element.classList.add("calender__button--clear");
+          element.classList.add("c-date-picker__day--clear");
         }
         if (
           workingDate.getFullYear() === today.getFullYear() &&
           workingDate.getMonth() === today.getMonth() &&
           workingDate.getDate() === today.getDate()
         ) {
-          element.classList.add("calender__button--today");
+          element.classList.add("c-date-picker__day--today");
         }
         if (
           workingDate.getFullYear() === this.dateValue.getFullYear() &&
           workingDate.getMonth() === this.dateValue.getMonth() &&
           workingDate.getDate() === this.dateValue.getDate()
         ) {
-          element.classList.add("calender__button--selected-date");
+          element.classList.add("c-date-picker__day--selected-date");
         }
         workingDate.setDate(workingDate.getDate() + 1);
       }
