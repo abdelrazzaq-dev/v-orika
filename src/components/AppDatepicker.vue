@@ -107,7 +107,7 @@ export default class AppDatepicker extends Vue {
 
   fillCalender() {
     const today = new Date();
-    const tmpDate = this.dateValue;
+    const tmpDate = new Date(this.dateValue);
     const tmpDateFirstDayDate = tmpDate.setDate(1);
     let tmpDateFirstDay = tmpDate.getDay();
     if (this.currentLocale && this.currentLocale.theStartOfTheWeek === 1) {
