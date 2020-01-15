@@ -1,7 +1,11 @@
-.input-datetime {
+$primary: #D1DBBD !default;
+$calender-theme: $primary !default;
+$calender-background: white !default;
+
+.c-date-picker {
   display: grid;
-  position: relative;
-    &__label {
+
+  &__label {
     color: black;
 
     &--dots::after {
@@ -15,74 +19,80 @@
     padding: 0 .5rem;
     font-size: large;
     width: 100%;
-    
-    &--small-font {
-      font-size: small;
-    }
+    box-sizing: border-box;
   }
 
-}
+  &__picker {
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    box-shadow: 0px 0 8px 4px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    background-color: white;
+  }
 
-.calender {
-  position: absolute;
-  $primary: #D1DBBD !default;
-  $calender-theme: $primary !default;
-  $calender-background: white !default;
-
-  box-shadow: 0px 0 8px 4px rgba(0, 0, 0, 0.15);
-  width: 300px;
-  background-color: white;
-
-  &-header {
+  &__header {
     display: grid;
     grid-template: 1fr auto / auto 1fr auto;
-    grid-template-areas: "left date right" "days days days";
+    grid-template-areas: "left date right""days days days";
     padding: .5rem;
     background-color: $calender-theme;
     height: 100px;
 
-    &__move {
-      border: none;
-      color: grey;
-      font-size: large;
-      background: none;
-
-      icon-chevron-right {
-        grid-area: right;
-      }
-
-      icon-chevron-left {
-        grid-area: left;
-      }
-    }
-
-    &__date {
-      justify-self: center;
+    div {
       display: flex;
+      justify-content: space-around;
       align-items: center;
-      font-size: x-large;
-      grid-area: date;
-
     }
-
-    &__days{
-      grid-area: days;
-      display: grid;
-      grid-gap: .5rem;
-      grid-template-columns: repeat(7, 1fr);
-      justify-items: center;
-    }
-
   }
 
-  &__body {
+  &__switch {
+    border: none;
+    color: grey;
+    font-size: large;
+    background: none;
+
+    icon-chevron-right {
+      grid-area: right;
+    }
+
+    icon-chevron-left {
+      grid-area: left;
+    }
+  }
+
+  &__date {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    font-size: x-large;
+    grid-area: date;
+    border: none;
+    background: none;
+  }
+
+  &__weekdays {
+    grid-area: days;
+    display: grid;
+    grid-gap: .5rem;
+    grid-template-columns: repeat(7, 1fr);
+    justify-items: center;
+  }
+
+  &__weekday {
+    font-size: small;
+    font-weight: bold;
+  }
+
+  &__dates {
     padding: .5rem;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-gap: .25rem;
+
   }
 
-  &__button {
+  &__day {
     outline: none;
     height: 37px;
     margin: 0;
@@ -96,40 +106,15 @@
     }
 
     &--today {
-      border:2px solid blueviolet;
+      background-color: $calender-theme;
     }
 
-    &--selected {
-      background-color: blueviolet;
+    &--selected-date {
+      border: 2px solid $calender-theme;
     }
-    
+
     &:hover {
-      background-color: blueviolet;
-
+      border: 2px solid $calender-theme;
     }
-  }
-
-  &__day {
-    font-size: small;
-    font-weight: bold;
-  }
-
-  &-date {
-    padding: 0 .25rem;
-    margin: 0 .25rem;
-    border: none;
-    background: none;
-    
-    &:hover {
-      color: grey;
-    }
-  }
-
-  &--right {
-    left: 0;
-  }
-
-  &--left {
-    right: 0;
   }
 }
