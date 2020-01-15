@@ -38,12 +38,6 @@ $calender-background: white !default;
     padding: .5rem;
     background-color: $calender-theme;
     height: 100px;
-
-    div {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-    }
   }
 
   &__switch {
@@ -62,13 +56,16 @@ $calender-background: white !default;
   }
 
   &__date {
-    justify-self: center;
     display: flex;
+    justify-content: center;
     align-items: center;
-    font-size: x-large;
     grid-area: date;
-    border: none;
-    background: none;
+
+    &-item {
+      font-size: x-large;
+      border: none;
+      background: none;
+    }
   }
 
   &__weekdays {
@@ -110,11 +107,11 @@ $calender-background: white !default;
     }
 
     &--selected-date {
-      border: 2px solid $calender-theme;
+      border: 2px solid darken($color: $calender-theme, $amount: 10);
     }
 
     &:hover {
-      border: 2px solid $calender-theme;
+      border: 2px solid darken($color: $calender-theme, $amount: 10);
     }
   }
 }

@@ -20,10 +20,10 @@
       .c-date-picker__picker
         .c-date-picker__header
           button.c-date-picker__switch
-          div
-            button.c-date-picker__date {{ day }}
-            button.c-date-picker__date {{ month }}
-            button.c-date-picker__date {{ year }}
+          .c-date-picker__date
+            button.c-date-picker__date-item {{ day }}
+            button.c-date-picker__date-item {{ month }}
+            button.c-date-picker__date-item {{ year }}
           button.c-date-picker__switch
           .c-date-picker__weekdays
             .c-date-picker__weekday(v-for="item in localeWeekday") {{ item }}
