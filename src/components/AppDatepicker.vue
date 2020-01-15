@@ -1,0 +1,131 @@
+<template lang="pug">
+  .input-datetime
+    label.input-datetime__label(
+      v-if="label"
+      :for="name"
+      :class="labelCssClass"
+    ) {{label}}
+    .input-datetime__container
+      input.input-datetime__field(
+        v-bind='$attrs'
+        type="text"
+        :name="name"
+        :id="name"
+        :value="localeDate"
+        :class=`[
+          fieldCssClass
+        ]`
+      )
+      .calender
+        .calender-header
+          button.calender-header__move.icon-chevron-right
+          .calender-header__date
+            button.calender-date.date__day 13
+            button.calender-date.date__month يناير
+            button.calender-date.date__year 2019
+          button.calender-header__move.icon-chevron-left
+          .calender-header__days
+            .calender__day(v-for="item in localeWeekday") {{ item }}
+        .calender__body(ref="datesContainers")
+          button.calender__button(v-for="item in gridItems" type="button")
+
+</template>
+
+<script lang="ts">
+import { Vue, Component, Prop, Ref, Watch } from "vue-property-decorator";
+import { isNumber } from "util";
+import { generateWeekdayNameInLocal, convertToMS } from "@/util/helpers";
+
+@Component({
+  name: "app-datepicker"
+})
+export default class AppDatepicker extends Vue {
+  @Prop() labelCssClass?: string | [string];
+  @Prop() fieldCssClass?: string | [string];
+  @Prop() label?: string;
+  @Prop() name!: string;
+  @Prop({ default: () => new Date() }) dateValue!: Date;
+  @Prop({ default: "ar" }) locale!: string;
+  @Prop({
+    default: () => [
+      {
+        localeCode: "ar",
+        shortDay: ["أحد", "إثن", "ثلاث", "أرب", "خمس", "جمع", "سبت"],
+        theStartOfTheWeek: 1
+      }
+    ]
+  })
+  localeOptions!: [
+    {
+      localeCode: string;
+      shortDay?: string[];
+      shortMonth?: string[];
+      theStartOfTheWeek?: number;
+    }
+  ];
+
+  @Ref("datesContainers") datesContainers!: HTMLElement;
+
+  gridItems: number = 6 * 7;
+  localeDate: string = "";
+  currentLocale = this.localeOptions.find(
+    item => item.localeCode === this.locale
+  );
+
+  get localeWeekday() {
+    if (this.currentLocale && this.currentLocale.shortDay) {
+      if (this.currentLocale.theStartOfTheWeek === 1) {
+        const tempLocale = this.currentLocale.shortDay;
+        tempLocale.push(tempLocale.shift() as string);
+        return tempLocale;
+      }
+      return this.currentLocale.shortDay;
+    }
+    return generateWeekdayNameInLocal(this.locale, { format: "short" });
+  }
+
+  fillCalender() {
+    const today = new Date();
+    const tmpDate = this.dateValue;
+    const tmpDateFirstDayDate = tmpDate.setDate(1);
+    let tmpDateFirstDay = tmpDate.getDay();
+    if (this.currentLocale && this.currentLocale.theStartOfTheWeek === 1) {
+      if (tmpDateFirstDay === 0) tmpDateFirstDay = 6;
+      tmpDateFirstDay -= 1;
+    }
+    const workingDate = new Date(
+      tmpDateFirstDayDate - convertToMS({ days: tmpDateFirstDay })
+    );
+
+    for (const key in this.datesContainers.children) {
+      if (this.datesContainers.children.hasOwnProperty(key)) {
+        const element = this.datesContainers.children[key];
+        element.textContent = workingDate.getDate().toString();
+        element.setAttribute("data-date", workingDate.toISOString());
+        if (workingDate.getMonth() !== this.dateValue.getMonth()) {
+          element.classList.add("calender__button--clear");
+        }
+        if (
+          workingDate.getFullYear() === today.getFullYear() &&
+          workingDate.getMonth() === today.getMonth() &&
+          workingDate.getDate() === today.getDate()
+        ) {
+          element.classList.add("calender__button--today");
+        }
+        if (
+          workingDate.getFullYear() === this.dateValue.getFullYear() &&
+          workingDate.getMonth() === this.dateValue.getMonth() &&
+          workingDate.getDate() === this.dateValue.getDate()
+        ) {
+          element.classList.add("calender__button--selected-date");
+        }
+        workingDate.setDate(workingDate.getDate() + 1);
+      }
+    }
+  }
+
+  mounted() {
+    this.fillCalender();
+  }
+}
+</script>
