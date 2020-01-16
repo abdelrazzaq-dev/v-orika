@@ -8,9 +8,10 @@
     )
     .c-date-picker__container
       input.c-date-picker__field(
+        @focus="showPicker = !showPicker"
+        v-model="localeDate"
         v-bind='$attrs'
         type="text"
-        :value="localeDate"
         :name="name"
         :id="name"
         :class=`[
@@ -18,6 +19,7 @@
         ]`
       )
       date-picker(
+        v-if="showPicker"
         :dateValue="dateValue"
         :locale="locale"
         :locales="locales"
@@ -43,6 +45,11 @@ export default class AppDateInput extends Vue {
   @Prop() locale?: string;
   @Prop() label?: string;
   @Prop() name!: string;
-  localeDate: string = "";
+  showPicker: boolean = false;
+  localeDate: string = this.dateValue.toLocaleDateString(this.locale, {
+    month: "long",
+    year: "numeric",
+    day: "numeric"
+  });
 }
 </script>
