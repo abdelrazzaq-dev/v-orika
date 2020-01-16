@@ -1,5 +1,5 @@
 <template lang="pug">
-  .c-date-picker
+  .c-date-picker(v-click-outside="hide")
     label.c-date-picker__label(
       v-if="label"
       :for="name"
@@ -8,7 +8,7 @@
     )
     .c-date-picker__container
       input.c-date-picker__field(
-        @focus="showPicker = !showPicker"
+        @focus="showPicker = true"
         v-model="localeDate"
         v-bind='$attrs'
         type="text"
@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import ClickOutside from "vue-click-outside";
 import DatePicker from "./DatePicker.vue";
 import { ILocaleOption } from "../util/helpers";
 
@@ -35,6 +36,9 @@ import { ILocaleOption } from "../util/helpers";
   name: "app-date-input",
   components: {
     DatePicker
+  },
+  directives: {
+    ClickOutside
   }
 })
 export default class AppDateInput extends Vue {
@@ -51,5 +55,9 @@ export default class AppDateInput extends Vue {
     year: "numeric",
     day: "numeric"
   });
+
+  hide() {
+    this.showPicker = false;
+  }
 }
 </script>
