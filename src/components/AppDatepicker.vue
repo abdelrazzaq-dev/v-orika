@@ -10,9 +10,9 @@
       input.c-date-picker__field(
         v-bind='$attrs'
         type="text"
+        :value="localeDate"
         :name="name"
         :id="name"
-        :value="localeDate"
         :class=`[
           fieldCssClass
         ]`
@@ -46,13 +46,14 @@ export default class AppDatepicker extends Vue {
   @Prop() label?: string;
   @Prop() name!: string;
   @Prop({ default: () => new Date() }) dateValue!: Date;
-  @Prop({ default: "ar" }) locale!: string;
+  @Prop({ default: () => navigator.language }) locale!: string;
   @Prop({
     default: () => [
       {
         localeCode: "ar",
         shortDay: ["أحد", "إثن", "ثلاث", "أرب", "خمس", "جمع", "سبت"],
-        theStartOfTheWeek: 1
+        theStartOfTheWeek: 1,
+        dir: "rtl"
       }
     ]
   })
@@ -90,23 +91,15 @@ export default class AppDatepicker extends Vue {
   }
 
   get day() {
-    if (this.currentLocale)
-      return this.dateValue.toLocaleDateString(this.locale, { day: "numeric" });
-    return this.dateValue.toLocaleDateString(undefined, { day: "numeric" });
+    return this.dateValue.toLocaleDateString(this.locale, { day: "numeric" });
   }
 
   get month() {
-    if (this.currentLocale)
-      return this.dateValue.toLocaleDateString(this.locale, { month: "long" });
-    return this.dateValue.toLocaleDateString(undefined, { month: "long" });
+    return this.dateValue.toLocaleDateString(this.locale, { month: "long" });
   }
 
   get year() {
-    if (this.currentLocale)
-      return this.dateValue.toLocaleDateString(this.locale, {
-        year: "numeric"
-      });
-    return this.dateValue.toLocaleDateString(undefined, { year: "numeric" });
+    return this.dateValue.toLocaleDateString(this.locale, { year: "numeric" });
   }
 
   setDateChevrons() {
@@ -124,6 +117,7 @@ export default class AppDatepicker extends Vue {
       this.forwardMonth.classList.add("icon-chevron-left");
       this.previousMonth.classList.add("icon-chevron-right");
     }
+    this.datePicker.dir = dir;
   }
 
   fillDatePickerDays() {
