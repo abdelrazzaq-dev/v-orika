@@ -77,6 +77,8 @@ $calender-input-height: 40px !default;
   &__weekday {
     font-size: small;
     font-weight: bold;
+    text-transform: capitalize;
+    ;
   }
 
   &__dates {
