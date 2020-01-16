@@ -1,12 +1,12 @@
 <template lang="pug">
-  .c-date-picker
+  .c-date-picker(ref="datePicker")
     label.c-date-picker__label(
       v-if="label"
       :for="name"
       :class="labelCssClass"
       v-t="label"
     )
-    div
+    .c-date-picker__container
       input.c-date-picker__field(
         v-bind='$attrs'
         type="text"
@@ -19,12 +19,12 @@
       )
       .c-date-picker__picker
         .c-date-picker__header
-          button.c-date-picker__switch
+          button.c-date-picker__chevron(ref="forwardMonth")
+          button.c-date-picker__chevron(ref="previousMonth")
           .c-date-picker__date
             button.c-date-picker__date-item {{ day }}
             button.c-date-picker__date-item {{ month }}
             button.c-date-picker__date-item {{ year }}
-          button.c-date-picker__switch
           .c-date-picker__weekdays
             .c-date-picker__weekday(v-for="item in localeWeekday") {{ item }}
         .c-date-picker__dates(ref="datesContainers")
@@ -62,10 +62,14 @@ export default class AppDatepicker extends Vue {
       shortDay?: string[];
       shortMonth?: string[];
       theStartOfTheWeek?: number;
+      dir?: "ltr" | "rtl";
     }
   ];
 
+  @Ref("datePicker") datePicker!: HTMLElement;
   @Ref("datesContainers") datesContainers!: HTMLElement;
+  @Ref("forwardMonth") forwardMonth!: HTMLElement;
+  @Ref("previousMonth") previousMonth!: HTMLElement;
 
   gridItems: number = 6 * 7;
   localeDate: string = "";
@@ -105,7 +109,24 @@ export default class AppDatepicker extends Vue {
     return this.dateValue.toLocaleDateString(undefined, { year: "numeric" });
   }
 
-  fillCalender() {
+  setDateChevrons() {
+    const dir =
+      this.currentLocale && this.currentLocale.dir
+        ? this.currentLocale.dir
+        : this.datePicker.dir
+        ? this.datePicker.dir
+        : document.dir;
+
+    if (dir === "rtl") {
+      this.forwardMonth.classList.add("icon-chevron-right");
+      this.previousMonth.classList.add("icon-chevron-left");
+    } else {
+      this.forwardMonth.classList.add("icon-chevron-left");
+      this.previousMonth.classList.add("icon-chevron-right");
+    }
+  }
+
+  fillDatePickerDays() {
     const today = new Date();
     const tmpDate = new Date(this.dateValue);
     const tmpDateFirstDayDate = tmpDate.setDate(1);
@@ -146,7 +167,8 @@ export default class AppDatepicker extends Vue {
   }
 
   mounted() {
-    this.fillCalender();
+    this.fillDatePickerDays();
+    this.setDateChevrons();
   }
 }
 </script>

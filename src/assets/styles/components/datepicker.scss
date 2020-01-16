@@ -1,6 +1,7 @@
 $primary: #D1DBBD !default;
 $calender-theme: $primary !default;
 $calender-background: white !default;
+$calender-input-height: 40px !default;
 
 .c-date-picker {
   display: grid;
@@ -14,8 +15,12 @@ $calender-background: white !default;
     }
   }
 
+  &__container {
+    position: relative;
+  }
+
   &__field {
-    height: 40px;
+    height: $calender-input-height;
     padding: 0 .5rem;
     font-size: large;
     width: 100%;
@@ -25,34 +30,27 @@ $calender-background: white !default;
   &__picker {
     justify-content: space-around;
     align-items: center;
-    position: absolute;
     box-shadow: 0px 0 8px 4px rgba(0, 0, 0, 0.15);
     width: 300px;
     background-color: white;
+    position: absolute;
+    top: $calender-input-height;
   }
 
   &__header {
     display: grid;
     grid-template: 1fr auto / auto 1fr auto;
-    grid-template-areas: "left date right""days days days";
+    grid-template-areas: "chevron-left date chevron-right""days days days";
     padding: .5rem;
     background-color: $calender-theme;
     height: 100px;
   }
 
-  &__switch {
+  &__chevron {
     border: none;
     color: grey;
     font-size: large;
     background: none;
-
-    icon-chevron-right {
-      grid-area: right;
-    }
-
-    icon-chevron-left {
-      grid-area: left;
-    }
   }
 
   &__date {
