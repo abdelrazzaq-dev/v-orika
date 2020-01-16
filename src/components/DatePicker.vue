@@ -1,82 +1,46 @@
 <template lang="pug">
-  .c-date-picker(ref="datePicker")
-    label.c-date-picker__label(
-      v-if="label"
-      :for="name"
-      :class="labelCssClass"
-      v-t="label"
-    )
-    .c-date-picker__container
-      input.c-date-picker__field(
-        v-bind='$attrs'
-        type="text"
-        :value="localeDate"
-        :name="name"
-        :id="name"
-        :class=`[
-          fieldCssClass
-        ]`
-      )
-      .c-date-picker__picker
-        .c-date-picker__header
-          button.c-date-picker__chevron(ref="forwardMonth")
-          button.c-date-picker__chevron(ref="previousMonth")
-          .c-date-picker__date
-            button.c-date-picker__date-item {{ day }}
-            button.c-date-picker__date-item {{ month }}
-            button.c-date-picker__date-item {{ year }}
-          .c-date-picker__weekdays
-            .c-date-picker__weekday(v-for="item in localeWeekday") {{ item }}
-        .c-date-picker__dates(ref="datesContainers")
-          button.c-date-picker__day(v-for="item in gridItems" type="button")
-
+  .c-date-picker__picker
+    .c-date-picker__header
+      button.c-date-picker__chevron(ref="forwardMonth")
+      button.c-date-picker__chevron(ref="previousMonth")
+      .c-date-picker__date
+        button.c-date-picker__date-item {{ day }}
+        button.c-date-picker__date-item {{ month }}
+        button.c-date-picker__date-item {{ year }}
+      .c-date-picker__weekdays
+        .c-date-picker__weekday(v-for="item in localeWeekday") {{ item }}
+    .c-date-picker__dates(ref="datesContainers")
+      button.c-date-picker__day(v-for="item in gridItems" type="button")
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Ref, Watch } from "vue-property-decorator";
 import { isNumber } from "util";
-import { generateWeekdayNameInLocal, convertToMS } from "@/util/helpers";
+import {
+  generateWeekdayNameInLocale,
+  convertToMS,
+  ILocaleOption,
+  defaultsLocales
+} from "@/util/helpers";
 
 @Component({
-  name: "app-datepicker"
+  name: "date-picker"
 })
-export default class AppDatepicker extends Vue {
-  @Prop() labelCssClass?: string | [string];
-  @Prop() fieldCssClass?: string | [string];
-  @Prop() label?: string;
-  @Prop() name!: string;
+export default class DatePicker extends Vue {
   @Prop({ default: () => new Date() }) dateValue!: Date;
   @Prop({ default: () => navigator.language }) locale!: string;
-  @Prop({
-    default: () => [
-      {
-        localeCode: "ar",
-        shortDay: ["أحد", "إثن", "ثلاث", "أرب", "خمس", "جمع", "سبت"],
-        theStartOfTheWeek: 1,
-        dir: "rtl"
-      }
-    ]
-  })
-  localeOptions!: [
-    {
-      localeCode: string;
-      shortDay?: string[];
-      shortMonth?: string[];
-      theStartOfTheWeek?: number;
-      dir?: "ltr" | "rtl";
-    }
-  ];
+  @Prop({ default: () => defaultsLocales }) locales!: ILocaleOption[];
 
-  @Ref("datePicker") datePicker!: HTMLElement;
   @Ref("datesContainers") datesContainers!: HTMLElement;
   @Ref("forwardMonth") forwardMonth!: HTMLElement;
   @Ref("previousMonth") previousMonth!: HTMLElement;
 
   gridItems: number = 6 * 7;
-  localeDate: string = "";
-  currentLocale = this.localeOptions.find(
-    item => item.localeCode === this.locale
-  );
+  currentLocale = this.locales.find(item => item.localeCode === this.locale);
+  dir =
+    this.currentLocale && this.currentLocale.dir
+      ? this.currentLocale.dir
+      : document.dir;
 
   get localeWeekday() {
     if (this.currentLocale && this.currentLocale.shortDay) {
@@ -87,7 +51,7 @@ export default class AppDatepicker extends Vue {
       }
       return this.currentLocale.shortDay;
     }
-    return generateWeekdayNameInLocal(this.locale, { format: "short" });
+    return generateWeekdayNameInLocale(this.locale, { format: "short" });
   }
 
   get day() {
@@ -103,21 +67,13 @@ export default class AppDatepicker extends Vue {
   }
 
   setDateChevrons() {
-    const dir =
-      this.currentLocale && this.currentLocale.dir
-        ? this.currentLocale.dir
-        : this.datePicker.dir
-        ? this.datePicker.dir
-        : document.dir;
-
-    if (dir === "rtl") {
+    if (this.dir === "rtl") {
       this.forwardMonth.classList.add("icon-chevron-right");
       this.previousMonth.classList.add("icon-chevron-left");
     } else {
       this.forwardMonth.classList.add("icon-chevron-left");
       this.previousMonth.classList.add("icon-chevron-right");
     }
-    this.datePicker.dir = dir;
   }
 
   fillDatePickerDays() {

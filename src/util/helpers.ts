@@ -1,4 +1,4 @@
-export function generateMonthNameInLocal(locale: string): string[] {
+export function generateMonthNameInLocale(locale: string): string[] {
   const month: string[] = [];
   const today: Date = new Date();
   for (let index = 0; index < 11; index++) {
@@ -8,7 +8,7 @@ export function generateMonthNameInLocal(locale: string): string[] {
   return month
 }
 
-export function generateWeekdayNameInLocal(locale: string, options: { format: string }): string[] {
+export function generateWeekdayNameInLocale(locale: string, options: { format: string }): string[] {
   const weekdays: string[] = [];
   const today: Date = new Date();
   if (today.getDay() > 0) {
@@ -35,3 +35,20 @@ export function convertToMS(values: { minutes?: number, hours?: number, days?: n
     result += values.days * day
   return result
 }
+
+export interface ILocaleOption {
+  localeCode: string,
+  shortDay?: string[],
+  shortMonth?: string[];
+  theStartOfTheWeek?: number,
+  dir?: "ltr" | "rtl",
+}
+
+export const defaultsLocales: ILocaleOption[] = [
+  {
+    localeCode: "ar",
+    shortDay: ["أحد", "إثن", "ثلاث", "أرب", "خمس", "جمع", "سبت"],
+    theStartOfTheWeek: 1,
+    dir: "rtl"
+  }
+]
