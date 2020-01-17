@@ -45,7 +45,7 @@ export default class DatePicker extends Vue {
   get localeWeekday() {
     if (this.currentLocale && this.currentLocale.shortDay) {
       if (this.currentLocale.theStartOfTheWeek === 1) {
-        const tempLocale = this.currentLocale.shortDay;
+        const tempLocale = [...this.currentLocale.shortDay];
         tempLocale.push(tempLocale.shift() as string);
         return tempLocale;
       }
