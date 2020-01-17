@@ -21,6 +21,7 @@
       )
       date-picker(
         v-if="showPicker"
+        @date-changed="setLocaleDate"
         :dateValue="dateValue"
         :locale="locale"
         :locales="locales"
@@ -51,14 +52,18 @@ export default class AppDateInput extends Vue {
   @Prop() label?: string;
   @Prop() name!: string;
   showPicker: boolean = false;
-  localeDate: string = this.dateValue.toLocaleDateString(this.locale, {
-    month: "long",
-    year: "numeric",
-    day: "numeric"
-  });
+  localeDate: string = "";
   localeMonths: string[] = generateMonthNameInLocale(
     this.locale || navigator.language
   );
+
+  setLocaleDate(date: Date) {
+    this.localeDate = date.toLocaleDateString(this.locale, {
+      month: "long",
+      year: "numeric",
+      day: "numeric"
+    });
+  }
 
   localeDateChanged() {
     const dateMap: string[] = this.localeDate.split(/[ ,-/\\،]/);
@@ -85,6 +90,9 @@ export default class AppDateInput extends Vue {
 
   hide() {
     this.showPicker = false;
+  }
+  mounted() {
+    this.setLocaleDate(this.dateValue);
   }
 }
 </script>
