@@ -9,12 +9,12 @@
         button.c-date-picker__date-item {{ year }}
       .c-date-picker__weekdays
         .c-date-picker__weekday(v-for="item in localeWeekday") {{ item }}
-    .c-date-picker__dates(ref="datesContainers")
+    .c-date-picker__dates(ref="datesContainers" @click="setDate")
       button.c-date-picker__day(v-for="item in gridItems" type="button")
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Ref, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, Ref, Emit } from "vue-property-decorator";
 import { isNumber } from "util";
 import {
   generateWeekdayNameInLocale,
@@ -35,6 +35,7 @@ export default class DatePicker extends Vue {
   @Ref("forwardMonth") forwardMonth!: HTMLElement;
   @Ref("previousMonth") previousMonth!: HTMLElement;
 
+  workingDate = this.dateValue;
   gridItems: number = 6 * 7;
   currentLocale = this.locales.find(item => item.localeCode === this.locale);
   dir =
@@ -55,15 +56,26 @@ export default class DatePicker extends Vue {
   }
 
   get day() {
-    return this.dateValue.toLocaleDateString(this.locale, { day: "numeric" });
+    return this.workingDate.toLocaleDateString(this.locale, { day: "numeric" });
   }
 
   get month() {
-    return this.dateValue.toLocaleDateString(this.locale, { month: "long" });
+    return this.workingDate.toLocaleDateString(this.locale, { month: "long" });
   }
 
   get year() {
-    return this.dateValue.toLocaleDateString(this.locale, { year: "numeric" });
+    return this.workingDate.toLocaleDateString(this.locale, {
+      year: "numeric"
+    });
+  }
+
+  setDate(event: { target: HTMLButtonElement }) {
+    const dateString = event.target.dataset["date"];
+    if (dateString) {
+      this.workingDate = new Date(dateString);
+      this.DateChanged();
+      this.fillDatePickerDays();
+    }
   }
 
   setDateChevrons() {
@@ -78,7 +90,7 @@ export default class DatePicker extends Vue {
 
   fillDatePickerDays() {
     const today = new Date();
-    const tmpDate = new Date(this.dateValue);
+    const tmpDate = new Date(this.workingDate);
     const tmpDateFirstDayDate = tmpDate.setDate(1);
     let tmpDateFirstDay = tmpDate.getDay();
     if (this.currentLocale && this.currentLocale.theStartOfTheWeek === 1) {
@@ -92,9 +104,14 @@ export default class DatePicker extends Vue {
     for (const key in this.datesContainers.children) {
       if (this.datesContainers.children.hasOwnProperty(key)) {
         const element = this.datesContainers.children[key];
+        element.classList.remove(
+          "c-date-picker__day--clear",
+          "c-date-picker__day--today",
+          "c-date-picker__day--selected-date"
+        );
         element.textContent = workingDate.getDate().toString();
         element.setAttribute("data-date", workingDate.toISOString());
-        if (workingDate.getMonth() !== this.dateValue.getMonth()) {
+        if (workingDate.getMonth() !== this.workingDate.getMonth()) {
           element.classList.add("c-date-picker__day--clear");
         }
         if (
@@ -105,9 +122,9 @@ export default class DatePicker extends Vue {
           element.classList.add("c-date-picker__day--today");
         }
         if (
-          workingDate.getFullYear() === this.dateValue.getFullYear() &&
-          workingDate.getMonth() === this.dateValue.getMonth() &&
-          workingDate.getDate() === this.dateValue.getDate()
+          workingDate.getFullYear() === this.workingDate.getFullYear() &&
+          workingDate.getMonth() === this.workingDate.getMonth() &&
+          workingDate.getDate() === this.workingDate.getDate()
         ) {
           element.classList.add("c-date-picker__day--selected-date");
         }
@@ -119,6 +136,11 @@ export default class DatePicker extends Vue {
   mounted() {
     this.fillDatePickerDays();
     this.setDateChevrons();
+  }
+
+  @Emit()
+  DateChanged() {
+    return this.workingDate;
   }
 }
 </script>
