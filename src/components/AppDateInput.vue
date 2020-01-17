@@ -9,6 +9,7 @@
     .c-date-picker__container
       input.c-date-picker__field(
         @focus="showPicker = true"
+        @input="localeDateChanged"
         v-model="localeDate"
         v-bind='$attrs'
         type="text"
@@ -27,10 +28,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import ClickOutside from "vue-click-outside";
 import DatePicker from "./DatePicker.vue";
-import { ILocaleOption } from "../util/helpers";
+import { ILocaleOption, generateMonthNameInLocale } from "../util/helpers";
 
 @Component({
   name: "app-date-input",
@@ -55,6 +56,32 @@ export default class AppDateInput extends Vue {
     year: "numeric",
     day: "numeric"
   });
+  localeMonths: string[] = generateMonthNameInLocale(
+    this.locale || navigator.language
+  );
+
+  localeDateChanged() {
+    const dateMap: string[] = this.localeDate.split(/[ ,-/\\،]/);
+    if (dateMap.length > 0) {
+      if (!+dateMap[0]) {
+        dateMap.shift();
+      }
+      if (+dateMap[0]) {
+        this.dateValue.setDate(+dateMap[0]);
+      }
+      if (!+dateMap[1]) {
+        if (this.localeMonths.includes(dateMap[1])) {
+          this.dateValue.setMonth(this.localeMonths.indexOf(dateMap[1]));
+        }
+      }
+      if (+dateMap[1]) {
+        this.dateValue.setMonth(+dateMap[1] - 1);
+      }
+      if (+dateMap[2]) {
+        this.dateValue.setFullYear(+dateMap[2]);
+      }
+    }
+  }
 
   hide() {
     this.showPicker = false;
