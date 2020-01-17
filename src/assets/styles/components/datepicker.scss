@@ -2,12 +2,15 @@ $primary: #D1DBBD !default;
 $calender-theme: $primary !default;
 $calender-background: white !default;
 $calender-input-height: 40px !default;
+$z-top: 1000 !default;
 
 .c-date-picker {
-  display: grid;
+  margin-top: 1rem;
 
   &__label {
     color: black;
+    padding-bottom: .5rem;
+    display: block;
 
     &--dots::after {
       content: ":";
@@ -35,6 +38,7 @@ $calender-input-height: 40px !default;
     background-color: white;
     position: absolute;
     top: $calender-input-height;
+    z-index: $z-top;
   }
 
   &__header {
