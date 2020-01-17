@@ -4,8 +4,7 @@
       v-if="label"
       :for="name"
       :class="labelCssClass"
-      v-t="label"
-    )
+    ) {{label}}
     .c-date-picker__container
       input.c-date-picker__field(
         @focus="showPicker = true"
@@ -25,6 +24,7 @@
         :dateValue="dateValue"
         :locale="locale"
         :locales="locales"
+        :key="dateValue.toString()"
       )
 </template>
 
