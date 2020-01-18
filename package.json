@@ -7,7 +7,9 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
+    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
+    "build-lib": "vue-cli-service build --target lib --name v-orika src/main.ts"
+
   },
   "dependencies": {
     "core-js": "^3.4.4",
