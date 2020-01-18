@@ -35,20 +35,3 @@ export function convertToMS(values: { minutes?: number, hours?: number, days?: n
     result += values.days * day
   return result
 }
-
-export interface ILocaleOption {
-  localeCode: string,
-  shortDay?: string[],
-  shortMonth?: string[];
-  theStartOfTheWeek?: number,
-  dir?: "ltr" | "rtl",
-}
-
-export const defaultsLocales: ILocaleOption[] = [
-  {
-    localeCode: "ar",
-    shortDay: ["أحد", "إثن", "ثلاث", "أرب", "خمس", "جمع", "سبت"],
-    theStartOfTheWeek: 1,
-    dir: "rtl"
-  }
-]

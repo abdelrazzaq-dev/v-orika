@@ -1,15 +1,19 @@
-import Vue from 'vue'
-import App from './App.vue'
-import i18n from './i18n'
+import OrDateInput from "./components/dateInput"
 
-import "./assets/styles/index.scss";
-import AddDateInput from "@/components/AppDateInput.vue";
 
-Vue.config.productionTip = false
+const components = {
+  OrDateInput
+}
 
-new Vue({
-  i18n,
-  render: h => h(App)
-}).$mount('#app')
+function install(Vue: any) {
+  for (const component in components) {
+    if (components[component]) {
+      Vue.component(components[component].name, components[component])
+    }
+  }
+}
 
-export default AddDateInput;
+export default {
+  install,
+  ...components
+}

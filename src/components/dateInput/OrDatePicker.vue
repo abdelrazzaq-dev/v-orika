@@ -14,14 +14,12 @@
 </template>
 
 <script lang="ts">
+import "./style.scss";
 import { Vue, Component, Prop, Ref, Emit } from "vue-property-decorator";
 import { isNumber } from "util";
-import {
-  generateWeekdayNameInLocale,
-  convertToMS,
-  ILocaleOption,
-  defaultsLocales
-} from "@/util/helpers";
+import { generateWeekdayNameInLocale, convertToMS } from "@/util/index";
+import { ILocaleOption } from "@/util/interfaces";
+import { defaultsLocales } from "@/util/data";
 
 @Component({
   name: "date-picker"

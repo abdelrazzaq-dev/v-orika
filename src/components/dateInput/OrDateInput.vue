@@ -18,7 +18,7 @@
           fieldCssClass
         ]`
       )
-      date-picker(
+      or-date-picker(
         v-if="showPicker"
         @date-changed="setLocaleDate"
         :dateValue="dateValue"
@@ -29,22 +29,28 @@
 </template>
 
 <script lang="ts">
+import "./style.scss";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 //@ts-ignore
 import ClickOutside from "vue-click-outside";
-import DatePicker from "./DatePicker.vue";
-import { ILocaleOption, generateMonthNameInLocale } from "../util/helpers";
+import OrDatePicker from "./OrDatePicker.vue";
+import {
+  generateWeekdayNameInLocale,
+  convertToMS,
+  generateMonthNameInLocale
+} from "@/util/index";
+import { ILocaleOption } from "@/util/interfaces";
 
 @Component({
-  name: "app-date-input",
+  name: "or-date-input",
   components: {
-    DatePicker
+    OrDatePicker
   },
   directives: {
     ClickOutside
   }
 })
-export default class AppDateInput extends Vue {
+export default class OrDateInput extends Vue {
   @Prop({ default: () => new Date() }) dateValue!: Date;
   @Prop() labelCssClass?: string | [string];
   @Prop() fieldCssClass?: string | [string];
