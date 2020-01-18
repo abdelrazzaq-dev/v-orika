@@ -1,7 +1,10 @@
 {
-  "name": "orika-datepicker",
+  "name": "v-orika",
+  "description": "VueJS components library, with smooth RTL scripts handling",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "./dist/v-orika.common.js",
+  "files": ["dist"],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -9,7 +12,6 @@
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "build-lib": "vue-cli-service build --target lib --name v-orika src/main.ts"
-
   },
   "dependencies": {
     "core-js": "^3.4.4",
@@ -37,5 +39,12 @@
     "vue-cli-plugin-i18n": "^0.6.0",
     "vue-cli-plugin-pug": "^1.0.7",
     "vue-template-compiler": "^2.6.10"
-  }
+  },
+  "author": {
+    "name": "Abderrazzak Benbouya"
+  },
+  "repository": {
+    "url": "https://github.com/AbderrazzakB/v-orika"
+  },
+  "license": "MIT"
 }
