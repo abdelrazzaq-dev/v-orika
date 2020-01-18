@@ -30,6 +30,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+//@ts-ignore
 import ClickOutside from "vue-click-outside";
 import DatePicker from "./DatePicker.vue";
 import { ILocaleOption, generateMonthNameInLocale } from "../util/helpers";
