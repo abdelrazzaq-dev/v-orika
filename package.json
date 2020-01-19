@@ -1,12 +1,18 @@
 {
   "name": "v-orika",
-  "version": "0.1.0",
-  "private": true,
+  "description": "VueJS components library, with smooth RTL scripts handling",
+  "version": "0.2.0",
+  "private": false,
+  "main": "./dist/v-orika.common.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "build-lib": "vue-cli-service build --target lib --name v-orika src/main.ts "
   },
   "dependencies": {
     "core-js": "^3.4.4",
@@ -31,6 +37,16 @@
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
     "typescript": "~3.5.3",
+    "vue-cli-plugin-pug": "^1.0.7",
     "vue-template-compiler": "^2.6.10"
-  }
+  },
+  "author": {
+    "name": "Abderrazzak Benbouya",
+    "email": "benbouya.abderrazzak@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AbderrazzakB/v-orika"
+  },
+  "license": "MIT"
 }
