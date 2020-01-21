@@ -1,7 +1,7 @@
 export interface ILocaleOption {
-  localeCode: string,
-  shortDay?: string[],
+  localeCode: string;
+  shortDay?: string[];
   shortMonth?: string[];
-  theStartOfTheWeek?: number,
-  dir?: "ltr" | "rtl",
+  theStartOfTheWeek?: number;
+  dir?: "ltr" | "rtl";
 }

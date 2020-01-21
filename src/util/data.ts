@@ -1,4 +1,4 @@
-import { ILocaleOption } from './interfaces';
+import { ILocaleOption } from "./interfaces";
 
 export const defaultsLocales: ILocaleOption[] = [
   {
@@ -7,4 +7,4 @@ export const defaultsLocales: ILocaleOption[] = [
     theStartOfTheWeek: 1,
     dir: "rtl"
   }
-]
+];

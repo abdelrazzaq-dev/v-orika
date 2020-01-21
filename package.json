@@ -1,49 +1,51 @@
 {
   "name": "v-orika",
   "description": "VueJS components library, with smooth RTL scripts handling",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "main": "./dist/v-orika.common.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "build-lib": "vue-cli-service build --target lib --name v-orika src/main.ts"
+    "build-lib": "vue-cli-service build --target lib --name v-orika src/main.ts "
   },
   "dependencies": {
     "core-js": "^3.4.4",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
-    "vue-click-outside": "^1.0.7",
-    "vue-i18n": "^8.0.0",
     "vue-property-decorator": "^8.3.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
-    "@types/webpack": "^4.4.0",
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-eslint": "^4.1.0",
     "@vue/cli-plugin-typescript": "^4.1.0",
     "@vue/cli-plugin-unit-jest": "^4.1.0",
     "@vue/cli-service": "^4.1.0",
+    "@vue/eslint-config-prettier": "^5.0.0",
     "@vue/eslint-config-typescript": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.0.0",
+    "prettier": "^1.19.1",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
     "typescript": "~3.5.3",
-    "vue-cli-plugin-i18n": "^0.6.0",
     "vue-cli-plugin-pug": "^1.0.7",
     "vue-template-compiler": "^2.6.10"
   },
   "author": {
-    "name": "Abderrazzak Benbouya"
+    "name": "Abderrazzak Benbouya",
+    "email": "benbouya.abderrazzak@gmail.com"
   },
   "repository": {
+    "type": "git",
     "url": "https://github.com/AbderrazzakB/v-orika"
   },
   "license": "MIT"
