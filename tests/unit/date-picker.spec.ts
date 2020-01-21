@@ -1,6 +1,6 @@
 import { shallowMount } from "@vue/test-utils";
-import OrPickerDate from "@/components/PickerDate/OrPickerDate.vue";
-import OrInputDate from "@/components/InputDate/OrInputDate.vue";
+import OrPickerDate from "@/components/PickerDate";
+import OrInputDate from "@/components/InputDate";
 
 describe("PickerDate.vue", () => {
   it("renders the component", () => {

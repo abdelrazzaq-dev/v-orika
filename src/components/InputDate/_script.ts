@@ -1,7 +1,7 @@
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { generateMonthNameInLocale } from "@/util/index";
 import { ILocaleOption } from "@/util/interfaces";
-import OrPickerDate from "../PickerDate/OrPickerDate.vue";
+import OrPickerDate from "../PickerDate";
 import ClickOutside from "../../directives/clickOutside";
 
 @Component({

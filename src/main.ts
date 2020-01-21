@@ -1,5 +1,5 @@
-import OrInputDate from "@/components/InputDate/OrInputDate.vue";
-import OrPickerDate from "@/components//PickerDate/OrPickerDate.vue";
+import OrInputDate from "@/components/InputDate";
+import OrPickerDate from "@/components//PickerDate";
 
 const components = [OrInputDate, OrPickerDate];
 
@@ -11,4 +11,6 @@ function install(Vue: any) {
   }
 }
 
-export default { install, ...components };
+export default { install };
+export { default as OrInputDate } from "@/components/InputDate/OrInputDate.vue";
+export { default as OrPickerDate } from "@/components/PickerDate/OrPickerDate.vue";
