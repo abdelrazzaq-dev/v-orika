@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/AbderrazzakB/v-orika/compare/v0.3.1...v0.3.2) (2020-01-22)
+
+
+### Bug Fixes
+
+* remove old code ([5f67e9d](https://github.com/AbderrazzakB/v-orika/commit/5f67e9d8f3bc54a7d71e8e56f9548ed2b433659e))
+
 ### 0.3.1 (2020-01-22)
 
 
