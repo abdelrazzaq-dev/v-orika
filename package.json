@@ -1,7 +1,7 @@
 {
   "name": "v-orika",
   "description": "VueJS components library, with smooth RTL scripts handling",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "main": "./dist/v-orika.common.js",
   "files": [
