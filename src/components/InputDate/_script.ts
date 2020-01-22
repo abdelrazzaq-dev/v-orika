@@ -1,4 +1,4 @@
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, Watch, Emit } from "vue-property-decorator";
 import { generateMonthNameInLocale } from "@/util/index";
 import { ILocaleOption } from "@/util/interfaces";
 import OrPickerDate from "../PickerDate";
@@ -33,6 +33,7 @@ export default class OrInputDate extends Vue {
       year: "numeric",
       day: "numeric"
     });
+    this.DateChanged();
   }
 
   localeDateChanged() {
@@ -56,6 +57,7 @@ export default class OrInputDate extends Vue {
         this.dateValue.setFullYear(+dateMap[2]);
       }
     }
+    this.DateChanged();
   }
 
   hide() {
@@ -63,5 +65,9 @@ export default class OrInputDate extends Vue {
   }
   mounted() {
     this.setLocaleDate(this.dateValue);
+  }
+  @Emit()
+  DateChanged() {
+    return this.dateValue;
   }
 }

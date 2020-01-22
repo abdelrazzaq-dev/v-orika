@@ -10,6 +10,7 @@
         @focus="showPicker = true"
         @input="localeDateChanged"
         v-model="localeDate"
+        v-on="$listeners"
         v-bind='$attrs'
         type="text"
         :name="name"
