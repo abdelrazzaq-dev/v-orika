@@ -4,7 +4,7 @@
   margin-top: 1rem;
 
   &__label {
-    color: black;
+    color: inherit;
     padding-bottom: .5rem;
     display: block;
 
@@ -19,7 +19,7 @@
   }
 
   &__field {
-    height: $calender-input-height;
+    height: var(--height-input);
     padding: 0 .5rem;
     font-size: large;
     width: 100%;
@@ -33,8 +33,8 @@
     width: 300px;
     background-color: white;
     position: absolute;
-    top: $calender-input-height;
-    z-index: $z-top;
+    top: var(--height-input);
+    z-index: var(--z-top);
   }
 
   &__header {
@@ -42,7 +42,7 @@
     grid-template: 1fr auto / auto 1fr auto;
     grid-template-areas: "chevron-left date chevron-right""days days days";
     padding: .5rem;
-    background-color: $calender-theme;
+    background-color: var(--clr-primary);
     height: 100px;
   }
 
@@ -102,15 +102,15 @@
     }
 
     &--today {
-      background-color: $calender-theme;
+      background-color: var(--clr-primary);
     }
 
     &--selected-date {
-      border: 2px solid darken($color: $calender-theme, $amount: 10);
+      border: 2px solid var(--clr-primary);
     }
 
     &:hover {
-      border: 2px solid darken($color: $calender-theme, $amount: 10);
+      border: 2px solid var(--clr-primary);
     }
   }
 }
